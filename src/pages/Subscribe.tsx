@@ -17,7 +17,9 @@ export function Subscribe() {
 
   const navigate = useNavigate();
 
-  const [createSubscriber] = useMutation(CREATE_SUBSCRIBE_MUTATION);
+  const [createSubscriber, { loading }] = useMutation(
+    CREATE_SUBSCRIBE_MUTATION
+  );
 
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
@@ -71,7 +73,8 @@ export function Subscribe() {
             />
             <button
               type="submit"
-              className="mt-4 bg-green-500 py-4 uppercase rounded font-bold text-sm hover:bg-green-700 transition-colors"
+              disabled={loading}
+              className="mt-4 bg-green-500 py-4 uppercase rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50"
             >
               Garantir minha vaga
             </button>
