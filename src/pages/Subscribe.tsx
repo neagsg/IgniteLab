@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { Logo } from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 
 const CREATE_SUBSCRIBE_MUTATION = gql`
   mutation CreateSubscriber($name: String!, $email: String!) {
@@ -14,17 +15,21 @@ export function Subscribe() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  const navigate = useNavigate();
+
   const [createSubscriber] = useMutation(CREATE_SUBSCRIBE_MUTATION);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
 
-    createSubscriber({
+    await createSubscriber({
       variables: {
         name,
         email,
       },
     });
+
+    navigate("/event");
   }
   return (
     <div className="min-h-screen bg-blur bg-no-repeat bg-cover flex flex-col items-center">
@@ -48,7 +53,10 @@ export function Subscribe() {
             Inscreva-se gratuitamente
           </strong>
 
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
+          <form
+            onSubmit={handleSubscribe}
+            className="w-full flex flex-col gap-2"
+          >
             <input
               className="bg-gray-900 rounded px-5 h-14"
               type="text"
